@@ -133,7 +133,7 @@ void SFApp::OnUpdateWorld() {
 
   if(aliens.size() < maxAliens){
     auto alien = make_shared<SFAsset>(SFASSET_ALIEN);
-    auto pos   = Point2(rand()%640, 900.0f);
+    auto pos   = Point2(rand()%(surface->w)+1, (surface->h)+100);
     alien->SetPosition(pos);
     aliens.push_back(alien);
   }

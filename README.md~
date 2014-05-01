@@ -21,20 +21,14 @@ limited power and so only have power to fire around 100 more times! So make ever
 ## Installation ##
 You will have to have the SDL development libraries installed on
 your system.  The easiest way to compile is to use a command-line
-and run the included bash script by executing.
-`$ ./bash.sh`
-**I would like to make a Makefile at some point**
-From the supersub root directory.
 
-
-Alternatively running the following commands will have the same outcome.
 `$ g++ -c src/Main.cpp`
-`$ g++ -o supersub src/Main.o -lSDL -lSDL_image`
+`$ g++ -o starship src/Main.o -lSDL -lSDL_image`
 
-which will produce an executable file called "supersub" in the
+which will produce an executable file called "starship" in the
 top-level directory.  To execute this file do the following
 
-`$ ./supersub`
+`$ ./starship`
  
 from the top-level directory.  The game will expect to find the
 `assets` directory under its current working directory.
