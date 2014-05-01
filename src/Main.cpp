@@ -38,7 +38,7 @@ SFError InitGraphics() {
     throw SF_ERROR_VIDEOMODE;
   }
 
-  SDL_WM_SetCaption("Super Sub", "Starship Fontana");
+  SDL_WM_SetCaption("Super Sub", "Super Sub");
 
   return SF_ERROR_NONE;
 }

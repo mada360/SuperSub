@@ -53,8 +53,6 @@ private:
   SFAssetId                   id;
 
   static int SFASSETID;
-  int score;
-  int killed;
 };
 
 #endif

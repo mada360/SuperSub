@@ -12,20 +12,20 @@ SFApp::SFApp() : fire(0), is_running(true) {
   for(int i=0; i<number_of_aliens; i++) {
     // place an alien at width/number_of_aliens * i
     auto alien = make_shared<SFAsset>(SFASSET_ALIEN);
-    auto pos   = Point2((surface->w/number_of_aliens) * i, 400.0f);
+    auto pos   = Point2((surface->w/number_of_aliens) * i, 900.0f);
     alien->SetPosition(pos);
     aliens.push_back(alien);
   }
 
   auto coin = make_shared<SFAsset>(SFASSET_COIN);
-  auto pos  = Point2((surface->w/2), 480);
-  coin->SetPosition(pos);
+  auto coin_pos  = Point2((surface->w/2), 480);
+  coin->SetPosition(coin_pos);
   coins.push_back(coin);
 
-  auto barrier = make_shared<SFAsset>(SFASSET_BARRIER);
-  pos  = Point2(0, 0);
-  barrier->SetPosition(pos);
-  barrier.push_back(barrier);
+  // auto barrier = make_shared<SFAsset>(SFASSET_BARRIER);
+  // auto barrier_pos = Point2(0, 200);
+  // barrier->SetPosition(barrier_pos);
+  // barrier.push_back(barrier);
 }
 
 SFApp::~SFApp() {
@@ -39,6 +39,7 @@ void SFApp::OnEvent(SFEvent& event) {
   SFEVENT the_event = event.GetCode();
   switch (the_event) {
   case SFEVENT_QUIT:
+    cout << "YOU GOT " << score << " POINTS!!" << endl;
     is_running = false;
     break;
   case SFEVENT_UPDATE:
@@ -86,27 +87,39 @@ void SFApp::OnUpdateWorld() {
   for(auto a : aliens) {
     // do something here
     a ->GoSouth();
-    
-        
   }
 
   // Detect collisions
   for(auto p : projectiles) {
     for(auto a : aliens) {
       if(p->CollidesWith(a)) {
+        score += 100;
         p->HandleCollision();
         a->HandleCollision();
+        if(fire == 100){
+          cout << "YOU GOT " << score << " POINTS!!" << endl;
+          is_running = false;
+        }
       }
     }
   }
 
-  for(auto c : coins) {
-    
+  for(auto c : coins) {    
       if(c->CollidesWith(player)) {
+        score += 50;
         c->HandleCollision();
         player->HandleCollision();
-      }
-    
+      }    
+  }
+
+  for(auto a : aliens) {    
+      if(a->CollidesWith(player)) {
+        score -= 50;
+        a->HandleCollision();
+        player->HandleCollision();
+        cout << "YOU WERE KILLED IN ACTION! But scored " << score << " Points" << endl;
+        is_running = false;
+      }    
   }
 
      list<shared_ptr<SFAsset>> tmp1;
@@ -137,6 +150,7 @@ void SFApp::OnUpdateWorld() {
   }
   aliens.clear();
   aliens = list<shared_ptr<SFAsset>>(tmp);
+
 }
 
 void SFApp::OnRender() {
