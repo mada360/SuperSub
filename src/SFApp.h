@@ -38,6 +38,7 @@ private:
   list<shared_ptr<SFAsset> > coins;
 
   int fire;
+  const int maxAliens = 10;
 
   SFError OnInit();
 };

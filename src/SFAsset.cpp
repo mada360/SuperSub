@@ -20,6 +20,9 @@ SFAsset::SFAsset(SFASSETTYPE type) {
   case SFASSET_COIN:
     tmp_surf = IMG_Load("assets/coin.png");
     break;
+  case SFASSET_BARRIER:
+    tmp_surf = IMG_Load("assets/barrier.png");
+    break;
   }
 
   if(!tmp_surf) {
@@ -91,7 +94,7 @@ void SFAsset::OnRender(SDL_Surface * level) {
 }
 
 void SFAsset::GoWest() {
-  Vector2 c = *(bbox->centre) + Vector2(-5.0f, 0.0f);
+  Vector2 c = *(bbox->centre) + Vector2(-10.0f, 0.0f);
   if(!(c.getX() < 0)) {
     bbox->centre.reset();
     bbox->centre = make_shared<Vector2>(c);
@@ -99,7 +102,7 @@ void SFAsset::GoWest() {
 }
 
 void SFAsset::GoEast() {
-  Vector2 c = *(bbox->centre) + Vector2(5.0f, 0.0f);
+  Vector2 c = *(bbox->centre) + Vector2(10.0f, 0.0f);
   if(!(c.getX() > SDL_GetVideoSurface()->w)) {
     bbox->centre.reset();
     bbox->centre = make_shared<Vector2>(c);
@@ -107,7 +110,13 @@ void SFAsset::GoEast() {
 }
 
 void SFAsset::GoNorth() {
-  Vector2 c = *(bbox->centre) + Vector2(0.0f, 1.0f);
+  Vector2 c = *(bbox->centre) + Vector2(0.0f, 10.0f);
+  bbox->centre.reset();
+  bbox->centre = make_shared<Vector2>(c);
+}
+
+void SFAsset::GoSouth() {
+  Vector2 c = *(bbox->centre) + Vector2(0.0f, -2.0f);
   bbox->centre.reset();
   bbox->centre = make_shared<Vector2>(c);
 }
@@ -130,6 +139,13 @@ bool SFAsset::IsAlive() {
 
 void SFAsset::HandleCollision() {
   if(SFASSET_PROJECTILE == type || SFASSET_ALIEN == type) {
+    killed++;
+    
+    SetNotAlive();
+  }
+  if(SFASSET_COIN == type || SFASSET_ALIEN == type){
+//add code to increase score
+    score += 100;
     SetNotAlive();
   }
 }

@@ -5,22 +5,27 @@ SFApp::SFApp() : fire(0), is_running(true) {
   surface = SDL_GetVideoSurface();
   app_box = make_shared<SFBoundingBox>(Vector2(surface->w/2, surface->h/2), surface->w/2, surface->h/2);
   player  = make_shared<SFAsset>(SFASSET_PLAYER);
-  auto player_pos = Point2(surface->w/2, 88.0f);
+  auto player_pos = Point2(surface->w/2, 100.0f);
   player->SetPosition(player_pos);
 
   const int number_of_aliens = 10;
   for(int i=0; i<number_of_aliens; i++) {
     // place an alien at width/number_of_aliens * i
     auto alien = make_shared<SFAsset>(SFASSET_ALIEN);
-    auto pos   = Point2((surface->w/number_of_aliens) * i, 200.0f);
+    auto pos   = Point2((surface->w/number_of_aliens) * i, 400.0f);
     alien->SetPosition(pos);
     aliens.push_back(alien);
   }
 
   auto coin = make_shared<SFAsset>(SFASSET_COIN);
-  auto pos  = Point2((surface->w/4), 100);
+  auto pos  = Point2((surface->w/2), 480);
   coin->SetPosition(pos);
   coins.push_back(coin);
+
+  auto barrier = make_shared<SFAsset>(SFASSET_BARRIER);
+  pos  = Point2(0, 0);
+  barrier->SetPosition(pos);
+  barrier.push_back(barrier);
 }
 
 SFApp::~SFApp() {
@@ -74,12 +79,15 @@ void SFApp::OnUpdateWorld() {
   }
 
   for(auto c: coins) {
-    c->GoNorth();
+    c->GoSouth();
   }
 
   // Update enemy positions
   for(auto a : aliens) {
     // do something here
+    a ->GoSouth();
+    
+        
   }
 
   // Detect collisions
@@ -91,6 +99,34 @@ void SFApp::OnUpdateWorld() {
       }
     }
   }
+
+  for(auto c : coins) {
+    
+      if(c->CollidesWith(player)) {
+        c->HandleCollision();
+        player->HandleCollision();
+      }
+    
+  }
+
+     list<shared_ptr<SFAsset>> tmp1;
+  for(auto c : coins) {
+    if(c->IsAlive()) {
+      tmp1.push_back(c);
+    }
+  }
+  coins.clear();
+  coins = list<shared_ptr<SFAsset>>(tmp1);
+
+  if(aliens.size() < maxAliens){
+    auto alien = make_shared<SFAsset>(SFASSET_ALIEN);
+    auto pos   = Point2(rand()%640, 900.0f);
+    alien->SetPosition(pos);
+    aliens.push_back(alien);
+  }
+
+  //If mine goes off screen needs to be killed!
+
 
   // remove dead aliens (the long way)
   list<shared_ptr<SFAsset>> tmp;
@@ -119,7 +155,7 @@ void SFApp::OnRender() {
   }
 
   for(auto c: coins) {
-    c->OnRender(surface);
+    if(c->IsAlive()) {c->OnRender(surface);};
   }
 
   // Switch the off-screen buffer to be on-screen
