@@ -8,17 +8,15 @@ SFApp::SFApp() : fire(0), is_running(true) {
   auto player_pos = Point2(surface->w/2, 100.0f);
   player->SetPosition(player_pos);
 
-  for(int i=0; i<1; i++){
   auto barrier = make_shared<SFAsset>(SFASSET_BARRIER);
   auto barrier_posBot = Point2(0.0f+((surface->w)/2), 0.0f);
   barrier->SetPosition(barrier_posBot);
   barriers.push_back(barrier);
-  }
 
-  auto barrier = make_shared<SFAsset>(SFASSET_BARRIER);
+  auto barrierTOP = make_shared<SFAsset>(SFASSET_BARRIER);
   auto barrier_posTop = Point2(0.0f+((surface->w)/2), (surface->h)+150);
-  barrier->SetPosition(barrier_posTop);
-  barriers.push_back(barrier);
+  barrierTOP->SetPosition(barrier_posTop);
+  barriers.push_back(barrierTOP);
 
   const int number_of_aliens = 10;
   for(int i=0; i<number_of_aliens; i++) {
@@ -60,6 +58,12 @@ void SFApp::OnEvent(SFEvent& event) {
   case SFEVENT_PLAYER_RIGHT:
     player->GoEast();
     break;
+   case SFEVENT_PLAYER_UP:
+    player->GoNorth();
+    break;
+  case SFEVENT_PLAYER_DOWN:
+    player->GoSouth();
+    break;
   case SFEVENT_FIRE:
     fire ++;
     std::stringstream sstm;
@@ -88,7 +92,7 @@ void SFApp::OnUpdateWorld() {
   }
 
   for(auto c: coins) {
-    c->GoSouth();
+    c->Stay();
   }
 
   // Update enemy positions
@@ -101,6 +105,12 @@ void SFApp::OnUpdateWorld() {
   for(auto p : projectiles) {
     for(auto a : aliens) {
       if(p->CollidesWith(a)) {
+        if(fire%5 == 0){
+          auto pb = make_shared<SFAsset>(SFASSET_COIN);
+          auto v  = a->GetPosition();
+          pb->SetPosition(v);
+          coins.push_back(pb);
+        }
         score += 100;
         p->HandleCollision();
         a->HandleCollision();
