@@ -23,7 +23,8 @@ You will have to have the SDL development libraries installed on
 your system.  The easiest way to compile is to use a command-line
 and run the included bash script by executing.
 `$ ./bash.sh`
-**I would like to make a Makefile at some point**
+~~I would like to make a Makefile at some point~~ I have now added a Makefile, *It WILL show some errors
+when ran, however, providing it doesn't return an error code it nothing to worry about.*
 From the supersub root directory.
 
 
