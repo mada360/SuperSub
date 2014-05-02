@@ -8,11 +8,23 @@ SFApp::SFApp() : fire(0), is_running(true) {
   auto player_pos = Point2(surface->w/2, 100.0f);
   player->SetPosition(player_pos);
 
+  for(int i=0; i<1; i++){
+  auto barrier = make_shared<SFAsset>(SFASSET_BARRIER);
+  auto barrier_posBot = Point2(0.0f+((surface->w)/2), 0.0f);
+  barrier->SetPosition(barrier_posBot);
+  barriers.push_back(barrier);
+  }
+
+  auto barrier = make_shared<SFAsset>(SFASSET_BARRIER);
+  auto barrier_posTop = Point2(0.0f+((surface->w)/2), (surface->h)+150);
+  barrier->SetPosition(barrier_posTop);
+  barriers.push_back(barrier);
+
   const int number_of_aliens = 10;
   for(int i=0; i<number_of_aliens; i++) {
     // place an alien at width/number_of_aliens * i
     auto alien = make_shared<SFAsset>(SFASSET_ALIEN);
-    auto pos   = Point2((surface->w/number_of_aliens) * i, 900.0f);
+    auto pos   = Point2(20+(surface->w/number_of_aliens) * i, 900.0f);
     alien->SetPosition(pos);
     aliens.push_back(alien);
   }
@@ -22,10 +34,6 @@ SFApp::SFApp() : fire(0), is_running(true) {
   coin->SetPosition(coin_pos);
   coins.push_back(coin);
 
-  // auto barrier = make_shared<SFAsset>(SFASSET_BARRIER);
-  // auto barrier_pos = Point2(0, 200);
-  // barrier->SetPosition(barrier_pos);
-  // barrier.push_back(barrier);
 }
 
 SFApp::~SFApp() {
@@ -96,7 +104,7 @@ void SFApp::OnUpdateWorld() {
         score += 100;
         p->HandleCollision();
         a->HandleCollision();
-        if(fire == 100){
+        if(fire >= 100){
           cout << "YOU GOT " << score << " POINTS!!" << endl;
           is_running = false;
         }
@@ -139,7 +147,15 @@ void SFApp::OnUpdateWorld() {
   }
 
   //If mine goes off screen needs to be killed!
+  for(auto a : aliens) {
+    for(auto b : barriers){    
+      if(a->CollidesWith(b)) {
+        a->HandleCollision();
+      }
+    }    
+  }
 
+ 
 
   // remove dead aliens (the long way)
   list<shared_ptr<SFAsset>> tmp;
@@ -150,6 +166,15 @@ void SFApp::OnUpdateWorld() {
   }
   aliens.clear();
   aliens = list<shared_ptr<SFAsset>>(tmp);
+
+  list<shared_ptr<SFAsset>> tmp2;
+  for(auto p : projectiles) {
+    if(p->IsAlive()) {
+      tmp2.push_back(p);
+    }
+  }
+  projectiles.clear();
+  projectiles = list<shared_ptr<SFAsset>>(tmp2);
 
 }
 
