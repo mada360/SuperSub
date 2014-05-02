@@ -22,10 +22,13 @@ limited power and so only have power to fire around 100 more times! So make ever
 You will have to have the SDL development libraries installed on
 your system.  The easiest way to compile is to use a command-line
 and run the included bash script by executing.
-`$ ./bash.sh`
+`$ make`
 ~~I would like to make a Makefile at some point~~ I have now added a Makefile, *(It WILL show some errors
 when ran, however, providing it doesn't return an error code it's nothing to worry about.)*
 From the supersub root directory.
+
+You could also run the simple bash script below, the only benefit of which is a nice hello message.
+`$ ./bash.sh`
 
 
 Alternatively running the following commands will have the same outcome.
@@ -44,6 +47,8 @@ from the top-level directory.  The game will expect to find the
 The sprites in this game come directly from 
 [SpriteLib](http://www.widgetworx.com/widgetworx/portfolio/spritelib.html) and are used
 under the terms of the [CPL 1.0](http://opensource.org/licenses/cpl1.0.php).
+
+I had one of my friends create the submarine sprite, so many thanks to Callum Harrord.
 
 
 The event system is based on [Libsigc++](http://libsigc.sourceforge.net/)
