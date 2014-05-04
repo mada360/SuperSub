@@ -25,4 +25,4 @@ SFBoundingBox.o: ./src/SFBoundingBox.h ./src/SFBoundingBox.cpp ./src/SFMath.h
 	$(CC) $(CFLAGS) ./src/SFApp.cpp
 
 clean:
-	rm -rf *.o
+	rm -rf *.o *~
