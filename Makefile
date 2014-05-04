@@ -4,6 +4,7 @@ DEBUG = -g
 CFLAGS = -Wall -c $(DEBUG)
 LFLAGS = -Wall $(DEBUG)
 
+all: SuperSub
 
 SuperSub: $(OBJS)
 	$(CC) $(LFLAGS) $(OBJS) -o SuperSub -lSDL -lSDL_image
@@ -24,4 +25,4 @@ SFBoundingBox.o: ./src/SFBoundingBox.h ./src/SFBoundingBox.cpp ./src/SFMath.h
 	$(CC) $(CFLAGS) ./src/SFApp.cpp
 
 clean:
-	\rm -f ./*.o *~ SuperSub
+	rm -rf *.o
