@@ -18,11 +18,10 @@ SFApp::SFApp() : fire(0), is_running(true) {
   barrierTOP->SetPosition(barrier_posTop);
   barriers.push_back(barrierTOP);
 
-  const int number_of_aliens = 10;
-  for(int i=0; i<number_of_aliens; i++) {
+  for(int i=0; i<maxAliens; i++) {
     // place an alien at width/number_of_aliens * i
     auto alien = make_shared<SFAsset>(SFASSET_ALIEN);
-    auto pos   = Point2(20+(surface->w/number_of_aliens) * i, 900.0f);
+    auto pos   = Point2(20+(surface->w/maxAliens) * i, 900.0f);
     alien->SetPosition(pos);
     aliens.push_back(alien);
   }
@@ -86,6 +85,8 @@ int SFApp::OnExecute() {
 }
 
 void SFApp::OnUpdateWorld() {
+  //Scroll background
+
   // Update projectile positions
   for(auto p: projectiles) {
     p->GoNorth();
