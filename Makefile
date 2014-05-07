@@ -1,10 +1,10 @@
-OBJS = Main.o SFApp.o SFBoundingBox.o SFEvent.o SFAsset.o
+OBJS = Main.o SFApp.o SFEvent.o SFAsset.o SFBoundingBox.o 
 CC = g++ -std=c++11
 DEBUG = -g
 CFLAGS = -Wall -c $(DEBUG)
 LFLAGS = -Wall $(DEBUG)
 
-all: SuperSub
+all: SuperSub clean
 
 SuperSub: $(OBJS)
 	$(CC) $(LFLAGS) $(OBJS) -o SuperSub -lSDL -lSDL_image
@@ -22,7 +22,7 @@ SFAsset.o: ./src/SFAsset.h ./src/SFAsset.cpp ./src/SFCommon.h ./src/SFEvent.h ./
 	$(CC) $(CFLAGS) ./src/SFAsset.cpp
 
 SFBoundingBox.o: ./src/SFBoundingBox.h ./src/SFBoundingBox.cpp ./src/SFMath.h
-	$(CC) $(CFLAGS) ./src/SFApp.cpp
+	$(CC) $(CFLAGS) ./src/SFBoundingBox.cpp
 
 clean:
 	rm -rf *.o *~
