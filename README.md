@@ -21,24 +21,24 @@ limited power and so only have power to fire around 100 more times! So make ever
 ## Installation ##
 You will have to have the SDL development libraries installed on
 your system.  The easiest way to compile is to use a command-line
-and run the included bash script by executing.
-`$ make`
-~~I would like to make a Makefile at some point~~ I have now added a Makefile, *(It WILL show some errors
+and run the included makefile by using the command -
+`$ make` From the supersub root directory.
+~~I would like to make a Makefile at some point~~ I have now added a Makefile, *(It WILL show some warnings
 when ran, however, providing it doesn't return an error code it's nothing to worry about.)*
-From the supersub root directory.
+
 
 You could also run the simple bash script below, the only benefit of which is a nice hello message.
 `$ ./bash.sh`
 
 
 Alternatively running the following commands will have the same outcome.
-`$ g++ -c src/Main.cpp`
-`$ g++ -o supersub src/Main.o -lSDL -lSDL_image`
+`$ g++ -c src/*.cpp`
+`$ g++ -o SuperSub *.o -lSDL -lSDL_image`
 
 which will produce an executable file called "supersub" in the
 top-level directory.  To execute this file do the following
 
-`$ ./supersub`
+`$ ./SuperSub`
  
 from the top-level directory.  The game will expect to find the
 `assets` directory under its current working directory.
@@ -51,5 +51,5 @@ under the terms of the [CPL 1.0](http://opensource.org/licenses/cpl1.0.php).
 I had one of my friends create the submarine sprite, so many thanks to Callum Harrord.
 
 
-The event system is based on [Libsigc++](http://libsigc.sourceforge.net/)
+~~The event system is based on [Libsigc++](http://libsigc.sourceforge.net/)~~
 and is used under the [LGPL](http://www.gnu.org/copyleft/lgpl.html).
